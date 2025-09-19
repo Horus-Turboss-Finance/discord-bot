@@ -48,7 +48,7 @@ Nous utilisons **Gitmoji** pour garder un historique de commits expressif et cla
 ### 🔑 Principaux gitmojis :
 | Emoji | Code          | Description                         |
 | ----- | ------------- | ----------------------------------- |
-| ✨     | `:sparkles:`  | Nouvelle fonctionnalité             |
+| ✨    | `:sparkles:`  | Nouvelle fonctionnalité             |
 | 🐛    | `:bug:`       | Correction de bug                   |
 | ♻️    | `:recycle:`   | Refactoring                         |
 | 🔥    | `:fire:`      | Suppression de code inutile         |
