@@ -1,0 +1,21 @@
+module.exports = {
+  apps : [{
+    name:"discord-bot",
+    script: "./index.js",
+    node_args: "--env-file=./production.env",
+    instance: 1,
+    cron_restart: "0 3 * * *",
+    merge_logs: true,
+  }],
+  deploy : {
+    production : {
+      "user" : "root",
+      "host" : "172.252.236.248",
+      "key"  : "./keys/id_rsa.pem",   
+      "ref"  : "origin/main",
+      "repo" : "git@github.com:Horus-Turboss-Finance/discord-bot.git",
+      "path" : "~/cashsight/bot",
+      "post-deploy": `npm run preproduction`,
+    }
+  }
+}
