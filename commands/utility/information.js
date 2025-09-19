@@ -86,7 +86,7 @@ module.exports.main = async(interaction) => {
             .addFields({name: "Identifiant", value: `\`\`\`${userResolved.user.id}\`\`\``, inline:true})
             .addFields({name: "Tag", value: `${userArrFlagsEmbed?userArrFlagsEmbed:"\`\`\`Aucun tag\`\`\`"}`})
             embed.addFields({name: "Rôles", value: `${userRoleArray?userRoleArray:"\`\`\`Aucun rôle\`\`\`"}`})
-            if(userResolved.communicationDisabledUntilTimestamp){
+            if(userResolved.communicationDisabledUntilTimestamp > Date.now()){
                 embed.addFields({name: "Modération status", value: "\`\`\`Muted\`\`\`"})
             }
             embed
