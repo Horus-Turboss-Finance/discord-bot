@@ -8,7 +8,7 @@
     "release:patch": "npm run release -- --release-as patch",
     "release:minor": "npm run release -- --release-as minor",
     "release:major": "npm run release -- --release-as major",
-    "age:c:bot": "age -o ./crypted-env -R ./keys/age-public.pub bot.production.env",
+    "age:c:bot": "age -a -o ./crypted-env -R ./keys/age-public.pub bot.production.env",
     "age:d:bot": "age -d -o ./production.env -i ./keys/sops-key.pem ./crypted-env",
     "production:d:bot": "age -d -o ./production.env -i ~/.ssh/age-key crypted-env",
     "dev" : "npm run production",
