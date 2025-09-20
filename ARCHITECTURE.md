@@ -11,17 +11,18 @@ Le bot est structuré selon une architecture **modulaire**, inspirée des princi
 - Gestion des erreurs et des logs
 
 ```txt
-commands/            → Commandes slash et contextuelles
-└── feature/
-    └── kiff.js      → Exemple de commande enregistrée
-events/              → Listeners d'événements Discord (ready, message, etc.)
-└── ready.js
-core/                → Logique métier (ex : interaction avec l'API Cash Sights)
-documentation/       → (à fusionner avec core/ ou à supprimer lors du refactor)
-utils/               → Helpers & fonctions utilitaires pures
-services/            → Tâches planifiées / rappels / appels API
-index.js             → Entrée principale du bot
-CommandsRegister.js  → Script pour enregistrer les commandes auprès de l'API Discord
+src/
+├── client/   → Initialisation et configuration du bot Discord ou worker events
+├── commands/ → Commandes slash et contextuelles
+├── config/   → Constantes globales, loaders de config, environnements
+│   └── deploy-commands.ts→ Script pour enregistrer les commandes auprès de l’API Discord
+├── events/   → Listeners d’événements Discord (ready, message, etc.)
+├── jobs/     → tâches planifiées / rappels / cron
+├── loader/   → chargement centralisé des différentes parties de l'app
+├── services/ → Logique métier (ex : interaction avec l’API Cash Sights)
+├── types/    → Types TypeScript partagés
+├── utils/    → Helpers & fonctions utilitaires pures
+└── index.ts  → Entrée principale du bot
 ```
 
 > \[!NOTE]
@@ -29,33 +30,31 @@ CommandsRegister.js  → Script pour enregistrer les commandes auprès de l'API 
 
 ## ⚙️ Principes de base
 ### 📦 TypeScript First
-Le projet sera entièrement migré vers **TypeScript**, afin d'améliorer la **Developer Experience (DX)**, renforcer la **sécurité** à l'exécution et bénéficier d'un **code auto-documenté**.
+Le projet est entièrement en **TypeScript**, pour améliorer la **Developer Experience (DX)**, renforcer la **sécurité** à l'exécution et bénéficier d'un **code auto-documenté**.
 
 ### 📡 API Cash Sights
-La communication avec l'API Cash Sights sera centralisée lors du prochain refactor dans les fichiers du dossier `services/`, en utilisant **Axios**, et sécurisée à l'aide de tokens stockés dans les fichiers d'environnement (`.env.production`, etc.).
+La communication avec l'API Cash Sights est centralisée dans les fichiers du dossier `services/`, en utilisant **Axios**, et sécurisée à l'aide de tokens stockés dans les fichiers d'environnement (`.env.production`, etc.).
 
 ## 🧩 Commandes Discord
 Les commandes sont **modulaires**, **déclaratives** et conformes à Discordjs v14.
 
-Structure d'une commande (JS) :
-
-```js
-module.exports.data = new SlashCommandBuilder()
+Structure d'une commande (TS) :
+```ts
+export const data = new SlashCommandBuilder()
   .setName('ping')
-  .setDescription('Monitoring du bot');
+  .setDescription('monitoring')
 
-module.exports.cooldown = 5; // optionnel
+export const cooldown = 5 as const; // optionnel
 
-/**
- * @param {import("discord.js").Interaction} interaction 
- */
-module.exports.main = async (interaction) => {
+export async function main(
+  interaction: ChatInputCommandInteraction
+): Promise<void> {
   // logique ici
-};
+}
 ```
 
 ### 🔄 Déploiement des commandes
-Un script dédié `commandsRegister.js` permet d'enregistrer dynamiquement les commandes via l'API Discord :
+Un script dédié `/src/config/deploy-commands.ts` permet d'enregistrer dynamiquement les commandes via l'API Discord :
 
 ```bash
 npm run deploy:commands
@@ -64,17 +63,18 @@ npm run deploy:commands
 ## 🔁 Événements Discord
 Les événements sont définis dans `events/`, chaque fichier correspondant à un listener (ex : `ready`, `interactionCreate`, `messageCreate`, etc.).
 
-```js
-module.exports.config = {
+```ts
+export const config = {
   name: Events.ClientReady,
   once: true,
 };
 
 /**
- * @param {Client} client 
+ * Listener de l’événement ClientReady
+ * @param client Client DiscordJS
  */
-module.exports.main = (client) => {
-  console.log(`Connected! Logged in as ${client.user.tag}`);
+export const main = async (client: Client): Promise<void> => {
+  console.log(`Connected! Logged in as ${client.user?.tag}`);
 };
 ```
 
@@ -82,12 +82,25 @@ module.exports.main = (client) => {
 La logique métier (ex : appels API, calculs, validation) est **isolée** dans des services (`/services/`), afin d'éviter la duplication de logique dans les commandes ou les événements.
 
 Exemple :
+```ts
+// notify-page-change.service.js
+import { Client, TextChannel } from 'discord.js';
+import { ENV } from '../config/env-loader';
+import { buildPageChangeEmbed } from '../utils/build-embed/build-page-change-embed';
 
-```js
-// user.service.js
-export async function getUserKiffScore(userId) {
-  const response = await axios.get(`${API_URL}/user/${userId}/kiff`);
-  return response.data;
+export async function notifyPageChange(
+  client: Client,
+  args: { type: string; arr: Array<{ url: string; change: Record<string, boolean> }> }
+): Promise<void> {
+  const embed = buildPageChangeEmbed(args.type, args.arr);
+
+  try {
+    const channel = await client.channels.fetch(ENV.DISCORD_CHANNEL_NOTIFIER) as TextChannel;
+    await channel.send({ embeds: [embed] });
+  } catch (error) {
+    // TODO: remplacer par logger
+    console.error(error);
+  }
 }
 ```
 
@@ -113,13 +126,13 @@ Des utilitaires génériques sont disponibles dans `utils/` (ex : formatage de d
 Structure des fichiers de test :
 ```txt
 src/
-└── services/
-    └── user.service.test.ts
+└── test/
+    └── services/
+        └── user.service.test.ts
 ```
 
 ## 🪝 Jobs & Planification
-Le dossier `services/` inclut temporairement les tâches planifiées (ex : rappels automatiques, synchronisations périodiques).
-Ce dossier sera renommé `jobs/` lors du prochain refactor pour plus de clarté.
+Le dossier `job/` inclut les tâches planifiées (ex : rappels automatiques, synchronisations périodiques).
 
 ## 🚦 Lint & Qualité de code
 Le projet utilise :

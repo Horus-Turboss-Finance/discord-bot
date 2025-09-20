@@ -66,7 +66,7 @@ Toute contribution est bienvenue. Merci de lire le fichier [`CONTRIBUTING.md`](.
 * [ ] Intégration complète avec l'API Cash Sights (auth utilisateur OAuth2)
 * [ ] Ajout d'un système de badges / niveaux
 * [ ] Couverture de test complète avec Jest
-* [ ] Restructuration des fichiers
-* [ ] Migration vers typescripts
+* [x] ~~Restructuration des fichiers~~
+* [x] ~~Migration vers typescripts~~
 
 > Développé avec ❤️ par l'équipe **Horus Turboss Finance**.
