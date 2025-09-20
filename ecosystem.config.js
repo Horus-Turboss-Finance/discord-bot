@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name:"discord-bot",
-    script: "./index.js",
+    script: "./dist/index.js",
     node_args: "--env-file=./production.env",
     instance: 1,
     cron_restart: "0 3 * * *",
