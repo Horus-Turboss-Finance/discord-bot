@@ -109,6 +109,7 @@ Le projet utilise `--env-file` pour charger les variables d'environnement :
 * `NODE_ENV`
 * `DISCORD_TOKEN`
 * `DISCORD_CLIENT_ID`
+* `DISCORD_CHANNEL_REPORTS`
 * `DISCORD_CHANNEL_NOTIFIER`
 
 La configuration sensible ne doit **jamais** être hardcodée dans le code source.
