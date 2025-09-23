@@ -45,6 +45,7 @@ Créer un fichier `production.env` à la racine du projet avec le contenu suivan
 NODE_ENV="PRODUCTION"
 DISCORD_TOKEN=ton_token_discord
 DISCORD_CLIENT_ID=ton_client_id
+DISCORD_CHANNEL_REPORTS=ton_channel_id_pour_report
 DISCORD_CHANNEL_NOTIFIER=ton_channel_id_pour_annonce
 ```
 

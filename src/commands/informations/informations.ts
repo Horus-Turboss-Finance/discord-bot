@@ -1,10 +1,11 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, InteractionContextType } from "discord.js";
 import { handleServerSubcommand } from "./subcommands/server-subcommand";
 import { handleUserSubcommand } from "./subcommands/user-subcommand";
 
 export const data = new SlashCommandBuilder()
   .setName("informations")
   .setDescription("Donne des informations sur...")
+  .setContexts(InteractionContextType.Guild)   
   .addSubcommand((sub) =>
     sub
       .setName("user")
