@@ -58,10 +58,14 @@ export async function main(interaction: ChatInputCommandInteraction): Promise<vo
     const embed = new EmbedBuilder()
       .setTitle('🧹 Messages supprimés')
       .setDescription(`\`${messages.size} message(s)\` ont été supprimé(s) avec succès.`)
-      .setColor(0x00ff99)
+      .setColor(0x067647)
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed] });
+    const bot_res = await interaction.reply({ embeds: [embed] });
+    
+    setTimeout(() => {
+      bot_res.delete().catch(()=> null)
+    }, 10_000);
   } catch (error) {
     console.error('[Clear Command Error]: ', error);
 

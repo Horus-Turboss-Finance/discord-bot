@@ -114,10 +114,14 @@ export async function main(interaction: ChatInputCommandInteraction): Promise<vo
     const embed = new EmbedBuilder()
       .setTitle("Utilisateur expulsé")
       .setDescription(`**${user.tag}** a été réduit au silence jusqu'à \n<t:${Math.floor(until.getTime() / 1000)}:f>.`)
-      .setColor(0x00ff00)
+      .setColor(0x067647)
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed] });
+    const bot_res = await interaction.reply({ embeds: [embed] });
+    
+    setTimeout(() => {
+      bot_res.delete().catch(()=> null)
+    }, 10_000); 
   } catch (error) {
     console.error('[Mute Error]', error);
     const embed = new EmbedBuilder()

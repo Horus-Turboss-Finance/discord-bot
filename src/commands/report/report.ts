@@ -55,10 +55,11 @@ export async function main(
     const embed = new EmbedBuilder()
       .setTitle("Report effectué")
       .setDescription(`Merci pour ton signalement, il a bien été transmis à l'équipe.`)
-      .setColor(0x00ff00)
+      .setColor(0x067647)
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed] });
+
+    await interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error('[RAPPORT Error]', error);
     const embed = new EmbedBuilder()
@@ -67,6 +68,6 @@ export async function main(
       .addFields({ name: "Raison", value: "```Une erreur inconnu est survenue lors du report.```" })
       .setColor(0xE74C3C);
 
-    await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+    await interaction.editReply({ embeds: [embed] });
   }
 }

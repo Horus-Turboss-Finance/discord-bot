@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import { getHelpEmbed } from '../../services/help.service';
 
 export const data = new SlashCommandBuilder()
@@ -15,5 +15,5 @@ export async function main(interaction: ChatInputCommandInteraction): Promise<vo
   const commandName = interaction.options.getString('command');
 
   const embed = await getHelpEmbed(commandName);
-  await interaction.reply({ embeds: [embed], ephemeral: true });
+  await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 }

@@ -87,10 +87,14 @@ export async function main(interaction: ChatInputCommandInteraction): Promise<vo
       .setTitle("Utilisateur expulsé")
       .setDescription(`**${user.tag}** a été banni du serveur.`)
       .addFields({ name: '📝 Raison', value: `\`\`\`${reason}\`\`\`` })
-      .setColor(0x00ff00)
+      .setColor(0x067647)
       .setTimestamp();
-
-    await interaction.reply({ embeds: [embed] });
+      
+    const bot_res = await interaction.reply({ embeds: [embed] });
+    
+    setTimeout(() => {
+      bot_res.delete().catch(()=> null)
+    }, 10_000);
   } catch (error) {
     console.error(`[Erreur kick]`, error);
 
