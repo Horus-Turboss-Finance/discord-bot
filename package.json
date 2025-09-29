@@ -17,7 +17,7 @@
     "deploy:commands": "node -r ts-node/register --env-file=production.env ./src/config/deploy-commands.ts",
     "lint": "eslint .",
     "preproduction": "npm install && npm run production:d:bot",
-    "production": "npm run deploy:commands && pm2 startOrReload ./ecosystem.config.js"
+    "production": "npm run preproduction && npm run deploy:commands && pm2 startOrReload ./ecosystem.config.js"
   },
   "author": "Horus Turboss <docteur.turboss@gmail.com>",
   "license": "ISC",
