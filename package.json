@@ -4,10 +4,6 @@
   "main": "index.js",
   "scripts": {
     "commit": "gitmoji -c",
-    "release": "standard-version",
-    "release:patch": "npm run release -- --release-as patch",
-    "release:minor": "npm run release -- --release-as minor",
-    "release:major": "npm run release -- --release-as major",
     "age:c:bot": "age -a -o ./crypted-env -R ./keys/age-public.pub bot.production.env",
     "age:d:bot": "age -d -o ./production.env -i ./keys/sops-key.pem ./crypted-env",
     "production:d:bot": "age -d -o ./production.env -i ~/.ssh/age-key crypted-env",
@@ -16,7 +12,7 @@
     "staging-preprod": "npm run age:d:bot && pm2 startOrReload ./ecosystem.config.js",
     "deploy:commands": "node -r ts-node/register --env-file=production.env ./src/config/deploy-commands.ts",
     "lint": "eslint .",
-    "preproduction": "npm install && npm run production:d:bot",
+    "preproduction": "npm install && npm run build && && npm run production:d:bot",
     "production": "npm run preproduction && npm run deploy:commands && pm2 startOrReload ./ecosystem.config.js"
   },
   "author": "Horus Turboss <docteur.turboss@gmail.com>",
@@ -30,11 +26,10 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "ts-node": "^10.9.2",
     "@eslint/js": "^9.30.1",
     "@types/jsdom": "^21.1.7",
     "eslint": "^9.30.1",
-    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1"
   }

@@ -15,7 +15,9 @@ Ce dépôt contient le code source du bot, développé en **Node.js** avec le fr
 
 🔗 Site principal : [https://cashsight.fr/](https://cashsight.fr/)  
 
-📁 Dépôt Git : `git@github.com:Horus-Turboss-Finance/discord-bot.git`
+📁 Dépôt Git : `git@github.com:Horus-Turboss-Finance/discord-bot.git`  
+
+![Alt](https://repobeats.axiom.co/api/embed/6824978dbbdaab920b8e57a9b8f29c3a645be02e.svg "Repobeats analytics image")
 
 ## ⚙️ Stack technique
 * **Node.js 23.6.0** – Runtime JavaScript côté serveur
@@ -43,6 +45,7 @@ Créer un fichier `production.env` à la racine du projet avec le contenu suivan
 NODE_ENV="PRODUCTION"
 DISCORD_TOKEN=ton_token_discord
 DISCORD_CLIENT_ID=ton_client_id
+DISCORD_CHANNEL_REPORTS=ton_channel_id_pour_report
 DISCORD_CHANNEL_NOTIFIER=ton_channel_id_pour_annonce
 ```
 
