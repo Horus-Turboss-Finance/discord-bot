@@ -15,6 +15,7 @@ module.exports = {
       "ref"  : "origin/main",
       "repo" : "git@github.com:Horus-Turboss-Finance/discord-bot.git",
       "path" : "~/cashsight/bot",
+      "pre-deploy": `npm install && npm run production:d:bot`,
       "post-deploy": `npm run production`,
     }
   }
